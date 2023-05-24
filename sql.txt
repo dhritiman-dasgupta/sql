@@ -1,0 +1,363 @@
+1. select * from emp;
+1.1. select * from tab;
+1.2. desc emp;
+2.select sal as salary from emp;
+select * from emp where hiredate > '19_APR_1987';
+select distinct(job) from emp;
+select * from emp where job = 'CLERK';
+select empno,ename,job,deptno from emp where ename = 'JAMES';
+select * from emp where ename like ('_A%');
+select * from emp where not job='MANAGER';
+select * from emp where job='CLERK' and sal>1100;
+select * from emp where deptno in(10,30) order by ename;
+select ename,sal from emp where sal>1500 and deptno in(10,30);
+select ename,sal from emp where sal+comm>1500 and deptno=10 or deptno=30;
+select ename,hiredate from emp where hiredate like '%_______82';
+select ename,hiredate as confirmationdate from emp;
+select ename,sal,comm from emp where comm is not null order by sal desc;
+select ename from emp where ename like '%LL%';
+select ename from emp where sal<comm;
+
+create table empl(
+emp_id int,
+dept_id int,
+primary key(emp_id,dept_id),
+emp_name varchar(25),
+gender varchar(25),
+salary int
+);
+
+
+
+create table dep(
+deptname varchar(20) primary key,
+ref_emp_id int not null,
+ref_dept_id int not null,
+foreign key (ref_emp_id,ref_dept_id) references empl(emp_id,dept_id)
+);
+
+
+alter table empl(
+designation char(20)
+);
+
+
+ater table empl rename designation as desg;
+
+
+alter table empl modify desg integer;
+sqlcommands_03.txt
+Displaying sqlcommands_03.txt. 
+
+
+
+
+
+
+
+
+
+SQL> select empno,ename,sal,round(sal*1.15) as new_sal from emp;
+
+     EMPNO ENAME             SAL    NEW_SAL
+---------- ---------- ---------- ----------
+      7369 SMITH             800        920
+      7499 ALLEN            1600       1840
+      7521 WARD             1250       1438
+      7566 JONES            2975       3421
+      7654 MARTIN           1250       1438
+      7698 BLAKE            2850       3278
+      7782 CLARK            2450       2818
+      7788 SCOTT            3000       3450
+      7839 KING             5000       5750
+      7844 TURNER           1500       1725
+      7876 ADAMS            1100       1265
+
+     EMPNO ENAME             SAL    NEW_SAL
+---------- ---------- ---------- ----------
+      7900 JAMES             950       1093
+      7902 FORD             3000       3450
+      7934 MILLER           1300       1495
+
+14 rows selected.
+
+SQL> select empno,ename,sal,round(sal*1.15) as new_sal,(round(sal*1.15)-sal)as increase from emp;
+
+     EMPNO ENAME             SAL    NEW_SAL   INCREASE
+---------- ---------- ---------- ---------- ----------
+      7369 SMITH             800        920        120
+      7499 ALLEN            1600       1840        240
+      7521 WARD             1250       1438        188
+      7566 JONES            2975       3421        446
+      7654 MARTIN           1250       1438        188
+      7698 BLAKE            2850       3278        428
+      7782 CLARK            2450       2818        368
+      7788 SCOTT            3000       3450        450
+      7839 KING             5000       5750        750
+      7844 TURNER           1500       1725        225
+      7876 ADAMS            1100       1265        165
+
+     EMPNO ENAME             SAL    NEW_SAL   INCREASE
+---------- ---------- ---------- ---------- ----------
+      7900 JAMES             950       1093        143
+      7902 FORD             3000       3450        450
+      7934 MILLER           1300       1495        195
+
+14 rows selected.
+
+SQL> select empno,ename,sal,round(sal*1.15) as new_sal,(round(sal*1.15)-sal)as increase from emp where (round(sal*1.15)-sal)>200 ;
+
+     EMPNO ENAME             SAL    NEW_SAL   INCREASE
+---------- ---------- ---------- ---------- ----------
+      7499 ALLEN            1600       1840        240
+      7566 JONES            2975       3421        446
+      7698 BLAKE            2850       3278        428
+      7782 CLARK            2450       2818        368
+      7788 SCOTT            3000       3450        450
+      7839 KING             5000       5750        750
+      7844 TURNER           1500       1725        225
+      7902 FORD             3000       3450        450
+
+8 rows selected.
+
+
+SQL> select concat(empno,ename) as employee_description from emp;
+
+EMPLOYEE_DESCRIPTION
+--------------------------------------------------
+7369SMITH
+7499ALLEN
+7521WARD
+7566JONES
+7654MARTIN
+7698BLAKE
+7782CLARK
+7788SCOTT
+7839KING
+7844TURNER
+7876ADAMS
+
+EMPLOYEE_DESCRIPTION
+--------------------------------------------------
+7900JAMES
+7902FORD
+7934MILLER
+
+14 rows selected.
+
+SQL> select empno||'  __BLANK SPACE__  '||ename as employee_description from emp;
+
+EMPLOYEE_DESCRIPTION
+---------------------------------------------------------------------
+7369  __BLANK SPACE__  SMITH
+7499  __BLANK SPACE__  ALLEN
+7521  __BLANK SPACE__  WARD
+7566  __BLANK SPACE__  JONES
+7654  __BLANK SPACE__  MARTIN
+7698  __BLANK SPACE__  BLAKE
+7782  __BLANK SPACE__  CLARK
+7788  __BLANK SPACE__  SCOTT
+7839  __BLANK SPACE__  KING
+7844  __BLANK SPACE__  TURNER
+7876  __BLANK SPACE__  ADAMS
+
+EMPLOYEE_DESCRIPTION
+---------------------------------------------------------------------
+7900  __BLANK SPACE__  JAMES
+7902  __BLANK SPACE__  FORD
+7934  __BLANK SPACE__  MILLER
+
+14 rows selected.
+
+
+SQL> select ename,length(ename) from emp;
+
+ENAME      LENGTH(ENAME)
+---------- -------------
+SMITH                  5
+ALLEN                  5
+WARD                   4
+JONES                  5
+MARTIN                 6
+BLAKE                  5
+CLARK                  5
+SCOTT                  5
+KING                   4
+TURNER                 6
+ADAMS                  5
+
+ENAME      LENGTH(ENAME)
+---------- -------------
+JAMES                  5
+FORD                   4
+MILLER                 6
+
+14 rows selected.
+
+
+SQL> select ename,ltrim(ename,'S') from emp;
+
+ENAME      LTRIM(ENAM
+---------- ----------
+SMITH      MITH
+ALLEN      ALLEN
+WARD       WARD
+JONES      JONES
+MARTIN     MARTIN
+BLAKE      BLAKE
+CLARK      CLARK
+SCOTT      COTT
+KING       KING
+TURNER     TURNER
+ADAMS      ADAMS
+
+ENAME      LTRIM(ENAM
+---------- ----------
+JAMES      JAMES
+FORD       FORD
+MILLER     MILLER
+
+14 rows selected.
+
+SQL> select ename,rtrim(ename,'N') from emp;
+
+ENAME      RTRIM(ENAM
+---------- ----------
+SMITH      SMITH
+ALLEN      ALLE
+WARD       WARD
+JONES      JONES
+MARTIN     MARTI
+BLAKE      BLAKE
+CLARK      CLARK
+SCOTT      SCOTT
+KING       KING
+TURNER     TURNER
+ADAMS      ADAMS
+
+ENAME      RTRIM(ENAM
+---------- ----------
+JAMES      JAMES
+FORD       FORD
+MILLER     MILLER
+
+14 rows selected.
+
+SQL> select ename,ltrim(ename,'S'),rtrim(ename,'N') from emp;
+
+ENAME      LTRIM(ENAM RTRIM(ENAM
+---------- ---------- ----------
+SMITH      MITH       SMITH
+ALLEN      ALLEN      ALLE
+WARD       WARD       WARD
+JONES      JONES      JONES
+MARTIN     MARTIN     MARTI
+BLAKE      BLAKE      BLAKE
+CLARK      CLARK      CLARK
+SCOTT      COTT       SCOTT
+KING       KING       KING
+TURNER     TURNER     TURNER
+ADAMS      ADAMS      ADAMS
+
+ENAME      LTRIM(ENAM RTRIM(ENAM
+---------- ---------- ----------
+JAMES      JAMES      JAMES
+FORD       FORD       FORD
+MILLER     MILLER     MILLER
+
+14 rows selected.
+
+
+SQL> select ename,initcap(ename),upper(ename),lower(ename) from emp;
+
+ENAME      INITCAP(EN UPPER(ENAM LOWER(ENAM
+---------- ---------- ---------- ----------
+SMITH      Smith      SMITH      smith
+ALLEN      Allen      ALLEN      allen
+WARD       Ward       WARD       ward
+JONES      Jones      JONES      jones
+MARTIN     Martin     MARTIN     martin
+BLAKE      Blake      BLAKE      blake
+CLARK      Clark      CLARK      clark
+SCOTT      Scott      SCOTT      scott
+KING       King       KING       king
+TURNER     Turner     TURNER     turner
+ADAMS      Adams      ADAMS      adams
+
+ENAME      INITCAP(EN UPPER(ENAM LOWER(ENAM
+---------- ---------- ---------- ----------
+JAMES      James      JAMES      james
+FORD       Ford       FORD       ford
+MILLER     Miller     MILLER     miller
+
+14 rows selected.
+
+
+SQL> select ename,substr(ename,2,3) from emp;
+
+ENAME      SUB
+---------- ---
+SMITH      MIT
+ALLEN      LLE
+WARD       ARD
+JONES      ONE
+MARTIN     ART
+BLAKE      LAK
+CLARK      LAR
+SCOTT      COT
+KING       ING
+TURNER     URN
+ADAMS      DAM
+
+ENAME      SUB
+---------- ---
+JAMES      AME
+FORD       ORD
+MILLER     ILL
+
+14 rows selected.
+
+SQL> select ename,instr(ename,'LL') from emp;
+
+ENAME      INSTR(ENAME,'LL')
+---------- -----------------
+SMITH                      0
+ALLEN                      2
+WARD                       0
+JONES                      0
+MARTIN                     0
+BLAKE                      0
+CLARK                      0
+SCOTT                      0
+KING                       0
+TURNER                     0
+ADAMS                      0
+
+ENAME      INSTR(ENAME,'LL')
+---------- -----------------
+JAMES                      0
+FORD                       0
+MILLER                     3
+
+14 rows selected.
+
+
+
+
+select ename , lpad(ename,10,'.'),rpad(ename,10,'.') from emp
+select ename, lower(ename),length(ename) from emp;
+select ename,TO_CHAR(HIREDATE,'dd/mm/yyyy') as "JoinDate", TO_CHAR(HIREDATE,'day') as "JoinDay" from emp;
+select ename,job,concat(ename,job) from emp;
+select ename,hiredate,to_char(hiredate,'day') as "Hire_Day",next_day("HIREDATE",'friday') as "next_friday",add_months("HIREDATE",6) as "Next_Months",add_months("HIREDATE",-6) as "Previous_Months" from emp;
+select ename,to_char(hiredate,'ddth month yyyy') as "Hiring" from emp;
+select initcap(ename) from emp where deptno=10 and sal<1600;
+select concat(upper(substr(ename,1,1)),lower(substr(ename,2))) from emp where deptno=10 and sal<1600;
+select emp.ename,dept.deptno,dept.dname from emp,dept where emp.deptno=dept.deptno;
+select distinct job from emp,dept where dept.dname='ACCOUNTING' and emp.deptno=dept.deptno;
+select ename,dname,loc from dept,emp where emp.deptno=dept.deptno and emp.comm is not null;
+select emp.ename,dept.dname from emp,dept where dept.deptno=emp.deptno and ename like '%A%';
+select emp.ename,emp.job,dept.deptno,dept.dname from emp, dept where dept.deptno=emp.deptno and loc='DALLAS';
+select emp.ename,emp.job,dept.deptno,dept.dname from emp, dept where dept.deptno=emp.deptno and ename ='KING';
+select ltrim(rtrim(ename,'S'),'S') from emp where substr(ename,1,1) = 'S';
+select ename,rtrim(ename,'S'),ltrim(ename,'S'),ltrim(rtrim(ename,'S'),'S') from emp where ename like 'S%' or ename like '%S';
+select sysdate+10 from dual;
